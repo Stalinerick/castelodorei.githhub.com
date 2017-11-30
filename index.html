@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Castelo do Rei</title>
+	<style type="text/css">
+		body{
+			background-color: #CCCCCC;
+
+		}
+		.menu{
+			float: left;
+			margin-left: 200px;
+			margin-top: 50px;
+		}
+		.menu a{
+			margin:5px;
+		}
+		.amigo{
+			width: 800px;
+			background-color: #999999;
+			padding: 15px;
+		}
+	</style>
+	</head>
+<body>
+	<audio loop autoplay="true">
+    	<source src="musicaDeFundo.ogg" type="audio/ogg"/>
+    </audio>
+    <div class="menu">
+    	<h4>Sua cidade</h4>
+    	<div class="amigo">
+			<div id="text">
+				<p>Olá, Seja bem vindo! Senhor eu sou o seu general de guerra e estarei aqui para ajudar a liderar o seu exercito, clique em treinar exercíto, para aumentar sua força militar, treine 25 soldados e ataque um acampamento</p>
+			</div>
+			<img src="general.jpg" height="200" width="150">
+		</div>
+
+
+    </div>
+	
+	
+	<div class="menu">
+		<tr>
+		<a id="level"></a>
+		<a id="tropasTreinadas"></a>
+		<a id="quarteis"></a>
+		<a id="casa"></a>
+		<a id="rss"></a>
+		<a id="exp"></a>
+		<a id="perd"></a>
+		<a id="batalhasp"></a>
+		<a id="vitorias"></a>
+	</tr>
+	<br><br><br>
+		<button onclick="soldados()">treinar</button>
+		<button onclick="quart()">Construir Quartel</button>
+		<button onclick="cas()">Construir Casa</button>
+		<h4>Ataques</h4>
+		<button onclick="acamp()">Acampamentos (fracos)</button>
+		<button onclick="aldei()">Aldeias (fácil)</button>
+		<button onclick="vil()">Vilas (médio)</button>
+		<button onclick="cidad()">Cidades (difícil)</button>
+		<button onclick="estad()">Estados</button>
+		<button onclick="pai()">Países</button>
+	</div>
+	
+	<script>
+
+		var tropas = 0, acampamento = 20, aldeia = 200, vila = 500, cidade = 1000, estado = 10000, pais = 100000, batalha, batalhaPerdida=0, vitorias = 0, quartel = 1, recursos = 0, casas = 50, xp = 0, perdas=0, batalha, lv = 0, lvl=12, forcaTropas = tropas * lv; 
+		function soldados(){
+			if (tropas < casas){
+				tropas = tropas+quartel;
+				document.getElementById("text").innerHTML = "Agora temos exatamente "+tropas+" de tropas senhor! seu lv é "+lv;
+			}
+			else{
+				document.getElementById("text").innerHTML = "Seus soldados ocuparam todas as casas";
+			}
+		}
+		function quart(){
+			if (recursos>0){
+				quartel++;
+				recursos = recursos-1;
+				document.getElementById("text").innerHTML = "Agora acabamos de construir mais um quartel, temos exatamente "+quartel+" de quarteis senhor!";
+			}else{
+				document.getElementById("text").innerHTML = "Recursos insuficientes para construir mais quarteis senhor!";
+			}
+		}
+		function cas(){
+			if (recursos>0){
+				casas = casas + lv;
+				recursos = recursos-1;
+				document.getElementById("text").innerHTML = "Agora acabamos de construir mais uma casa, temos exatamente "+casas+" de moradias senhor!";
+			}else{
+				document.getElementById("text").innerHTML = "Recursos insuficientes para construir mais casas senhor!";
+			}
+			
+		}
+		function acamp(){
+			batalha = tropas;
+			tropas = tropas - acampamento/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos++;
+				document.getElementById("text").innerHTML =tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML =  batalha+"vs"+acampamento+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+		}
+		function aldei(){
+			batalha = tropas;
+			tropas = tropas - aldeia/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos = recursos + 2;
+				document.getElementById("text").innerHTML = tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML = batalha+"vs"+aldeia+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+		}
+		function vil(){
+			batalha = tropas;
+			tropas = tropas - vila/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos = recursos + 3;
+				document.getElementById("text").innerHTML = tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML = batalha+"vs"+vila+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+		}
+		function cidad(){
+			batalha = tropas;
+			tropas = tropas - cidade/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos = recursos + 4;
+				document.getElementById("text").innerHTML = tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML = batalha+"vs"+cidade+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+		}
+		function estad(){
+			batalha = tropas;
+			tropas = tropas - estado/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos = recursos + 5;
+				document.getElementById("text").innerHTML = tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML = batalha+"vs"+estado+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+		}
+		function pai(){
+			batalha = tropas;
+			tropas = tropas - pais/2;
+			if (tropas > 0){
+				xp = xp+(batalha - tropas)/2;
+				perdas = perdas+(batalha - tropas);
+				vitorias++;
+				recursos = recursos + 6;
+				document.getElementById("text").innerHTML = tropas+" soldados voltaram para casa, senhor!"+(batalha - tropas)+" foram perdidas e você ganhou "+(batalha - tropas)/2+" de xp";
+				document.getElementById("vitorias").innerHTML = vitorias+" Batalhas vencidas!";
+			}else{
+				batalhaPerdida++;
+				tropas = 0;
+				perdas = perdas+batalha;
+				document.getElementById("text").innerHTML = batalha+"vs"+pais+". A batalha foi perdida, estamos arruinados, senhor!";
+				document.getElementById("batalhasp").innerHTML = batalhaPerdida+" Batalhas perdidas";
+			}
+			
+		}
+		var loop = function() {
+
+			document.getElementById("tropasTreinadas").innerHTML = "Tropas: "+tropas;
+			document.getElementById("quarteis").innerHTML = "Quarteis: "+quartel;
+			document.getElementById("casa").innerHTML = "Moradias: "+casas;
+			document.getElementById("exp").innerHTML = "Experiência ganha: "+xp;
+			document.getElementById("perd").innerHTML = "Tropas perdidas: "+perdas;
+			document.getElementById("level").innerHTML = "Level: "+lv;
+			if (xp>lvl){
+				lvl = lvl+lvl;
+				lv++;
+				
+			}
+			window.requestAnimationFrame(loop);
+
+			};
+			window.requestAnimationFrame(loop);
+
+		
+		
+	</script>
+	
+
+</body>
+</html>
